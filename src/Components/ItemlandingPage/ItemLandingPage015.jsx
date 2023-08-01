@@ -1,5 +1,5 @@
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 // import {useSearchParams } from 'react-router-dom'
 import { useSearchParams } from "react-router-dom";
 import { Footer } from "../Footer/Footer015";
@@ -14,6 +14,11 @@ export function ItemLandingPage015() {
   let [searchParams] = useSearchParams();
   const [item, setItem] = useState({});
   const [cast, setCast] = useState({});
+  const navRef = useRef(null);
+
+  useEffect(() => {
+    navRef.current?.scrollIntoView({ behavior: "smooth" })
+  },[])
   useEffect(() => {
     // https://api.themoviedb.org/3/movie/568124/credits?api_key=dfdce3f4e2798c999d2088421ef5be60&language=en-US
     // https://api.themoviedb.org/3/tv/2734/credits?api_key=dfdce3f4e2798c999d2088421ef5be60&language=en-US
@@ -50,14 +55,15 @@ export function ItemLandingPage015() {
   let minutes = item?.runtime - hours * 60;
   let year = item?.release_date?.trim().split("-")[0];
   // console.log(item);
-  console.log(item?.videos?.results[0].key);
 
   // let youtubeUrl = 'https://www.youtube.com/watch?v='+item?.videos?.results[0].key;
   let url = "https://image.tmdb.org/t/p/original" + item?.backdrop_path;
 
   return (
-    <>
-      <Navbar />
+    <div style={{overflow:"hidden"}}>
+      <div ref={navRef}>
+        <Navbar />
+      </div>
       <div
         style={{
           backgroundColor: "#0F171E",
@@ -68,7 +74,7 @@ export function ItemLandingPage015() {
           <div
             style={{
               position: "absolute",
-              marginLeft:'-5rem',
+              marginLeft: "-5rem",
               zIndex: -10,
               // border: "3px solid red",
               marginLeft: "30%",
@@ -93,23 +99,31 @@ export function ItemLandingPage015() {
             </div>
             <div>{item?.vote_average}</div>
             <div>
-              {searchParams.get("type")=='movie'?`${hours} h ${minutes} min`:null}
+              {searchParams.get("type") == "movie"
+                ? `${hours} h ${minutes} min`
+                : null}
             </div>
             <div>{year}</div>
           </div>
           <div className="flexbox-control-buttons">
-            <Link style={{borderBottom:'none'}} to={`/watchmoviepage?key=${item?.videos?.results[0].key}`}>
+            <Link
+              style={{ borderBottom: "none" }}
+              to={`/watchmoviepage?key=${item?.videos?.results[0]?.key}`}
+            >
               <div className="playBig">
                 <FaPlay size={30} />
                 Play
               </div>
             </Link>
-            <Link style={{borderBottom:'none'}} to={`/watchmoviepage?key=${item?.videos?.results[0].key}`}>
-              <ItemLandingControls choice={1}/>
+            <Link
+              style={{ borderBottom: "none" }}
+              to={`/watchmoviepage?key=${item?.videos?.results[0]?.key}`}
+            >
+              <ItemLandingControls choice={1} />
             </Link>
-            <ItemLandingControls choice={2}/>
-            <ItemLandingControls choice={3}/>
-            <ItemLandingControls choice={4}/>
+            <ItemLandingControls choice={2} />
+            <ItemLandingControls choice={3} />
+            <ItemLandingControls choice={4} />
           </div>
 
           <div className="itemdesc">{item?.overview}</div>
@@ -158,6 +172,6 @@ export function ItemLandingPage015() {
         <br />
         <Footer />
       </div>
-    </>
+    </div>
   );
 }
