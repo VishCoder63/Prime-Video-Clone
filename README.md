@@ -15,8 +15,7 @@ Prime Video is Amazon's subscription video on-demand over-the-top streaming and 
 - MongoDB
 
 ## Useful Links :
-- **Github repo link :  https://github.com/Karu555/Prime-Video-Clone.git**
-- **Deployment link :  https://prime-video-amazon-clone.netlify.app/**
+- **Updated deployment link :  https://prime-video-clone-xi.vercel.app/**
 
 
 ### Screenshots :
